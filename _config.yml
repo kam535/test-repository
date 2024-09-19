@@ -1,7 +1,7 @@
 ##########
-# collectionbuilder-gh
+# collectionbuilder-sheets
 # Jekyll Digital Collection Generator, designed for GitHub Pages
-# https://github.com/CollectionBuilder/collectionbuilder-gh
+# https://github.com/CollectionBuilder/collectionbuilder-sheets
 ##########
 
 ##########
@@ -14,32 +14,35 @@
 # on GitHub Pages it is your github repository's name prefixed with a /
 #baseurl: /collectionbuilder-gh 
 # location of code, the full url to your github repository
-source-code: https://github.com/CollectionBuilder/collectionbuilder-gh
+source-code: https://github.com/CollectionBuilder/collectionbuilder-sheets
 
 ##########
 # SITE SETTINGS
 #
 # title of site appears in banner
-title: Medieval Fragments 
+title: CollectionBuilder-Sheets
 # tagline, a short phrase that will appear throughout the site in the top banner
-tagline: a collection of Cornell University's medieval fragments of manuscripts
+tagline: a template for creating simple digital exhibits
 # description appears in meta tags and other locations
 # this description might appear in search result lists, keep around 160 characters max
-description: "Medieval Fragments is a collection of selectced fragments from Cornell University's Rare and Manuscript Collections."
+description: "CollectionBuilder-Sheets is a template for creating simple digital exhibit websites by loading collection metadata directly from a CSV, designed for teaching digital library skills."
 # creator of the digital collection, to appear in meta tags; we typically use our GitHub usernames but feel free to just use your name
-author: kam535
+author: CollectionBuilder
 
 ##########
 # COLLECTION SETTINGS
 #
-# Set the metadata for your collection (the name of the csv file in your _data directory that describes the objects in your collection) 
-# Use the filename of your CSV **without** the ".csv" extension! E.g. _data/demo-metadata.csv --> "demo-metadata"
+# Set the metadata for your collection 
+# This will be the full URL to your CSV file or relative path + filename of CSV in this repository 
+# e.g. relative path "/assets/demo-metadata.csv"
+# e.g. published google sheet "https://docs.google.com/spreadsheets/d/e/2PACX-1vSn7AA-cbsXT3_nNUGftc1ab-CKXOJHMQCIENeR9NHElbyI9_qA99o0-HNZdG04v-M2_N21bUe_krQQ/pub?output=csv"
+# e.g. on GitHub use the raw link "https://raw.githubusercontent.com/CollectionBuilder/collectionbuilder-sample-data/main/psychiana_cbdemo_gh.csv"
 metadata-csv: https://docs.google.com/spreadsheets/d/e/2PACX-1vR-t1aYB8aH2xsXXUuMqPLpWJmPcOTA3GkCP5cUtGYrk1OGZWxAh6CDo_mqicyAnJ5jxHhU_BRgGPBJ/pub?output=csv
 
 ##########
 # Site/Organization Branding 
-#   Uncomment these and enter information for your organization (replacing the CDIL links and name below) if you'd like to brand your site with a logo
-#
+# 
+# Uncomment these and enter information for your organization (replacing the CDIL links and name below) if you'd like to brand your site with a logo
 # organization-name: "Center for Digital Inquiry and Learning (CDIL)"
 # organization-link: https://cdil.lib.uidaho.edu/
 # organization-logo-banner: https://cdil.lib.uidaho.edu/storying-extinction/assets/img/cdil.png
@@ -58,8 +61,11 @@ metadata-csv: https://docs.google.com/spreadsheets/d/e/2PACX-1vR-t1aYB8aH2xsXXUu
 # JEKYLL_ENV=production jekyll build
 # (this is done automatically by gh-pages build)
 #
+# dev mode turns on ability to change metadata
+development-mode: true
 # ignore stuff
-exclude: [docs/, Rakefile, README.md, LICENSE, CITATION.cff, CODE_OF_CONDUCT.md, CONTRIBUTING.md]
+exclude: [docs/, Rakefile, README.md, LICENSE]
 # compress CSS output
 sass:
   style: compressed
+
