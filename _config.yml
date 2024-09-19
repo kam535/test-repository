@@ -20,21 +20,21 @@ source-code: https://github.com/CollectionBuilder/collectionbuilder-gh
 # SITE SETTINGS
 #
 # title of site appears in banner
-title: CollectionBuilder-GH 
+title: Medieval Fragments 
 # tagline, a short phrase that will appear throughout the site in the top banner
-tagline: a template for creating simple digital exhibits
+tagline: a collection of Cornell University's medieval fragments of manuscripts
 # description appears in meta tags and other locations
 # this description might appear in search result lists, keep around 160 characters max
-description: "CollectionBuilder-GH is a template for creating small digital collection exhibits on GitHub Pages designed for teaching digital library skills"
+description: "Medieval Fragments is a collection of selectced fragments from Cornell University's Rare and Manuscript Collections."
 # creator of the digital collection, to appear in meta tags; we typically use our GitHub usernames but feel free to just use your name
-author: CollectionBuilder
+author: kam535
 
 ##########
 # COLLECTION SETTINGS
 #
 # Set the metadata for your collection (the name of the csv file in your _data directory that describes the objects in your collection) 
 # Use the filename of your CSV **without** the ".csv" extension! E.g. _data/demo-metadata.csv --> "demo-metadata"
-metadata-csv: https://docs.google.com/spreadsheets/d/e/2PACX-1vR-t1aYB8aH2xsXXUuMqPLpWJmPcOTA3GkCP5cUtGYrk1OGZWxAh6CDo_mqicyAnJ5jxHhU_BRgGPBJ/pub?output=csv
+metadata: https://docs.google.com/spreadsheets/d/e/2PACX-1vR-t1aYB8aH2xsXXUuMqPLpWJmPcOTA3GkCP5cUtGYrk1OGZWxAh6CDo_mqicyAnJ5jxHhU_BRgGPBJ/pub?output=csv
 
 ##########
 # Site/Organization Branding 
