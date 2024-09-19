@@ -3,15 +3,7 @@
 {% assign icons = cb_icons.icons %}{%- endif -%}
 {%- assign fields = site.data.config-metadata -%}
 {%- assign stubs = site.data.config-nav | map: 'stub' | join: ';' -%}
-{%- assign items = site.data[site.metadata] | where_exp: 'item','item.objectid' -%}
 <script>
-/* add item data */
-var cb_items = [ 
-    {%- for item in items -%}
-    { "objectid": {{ item.objectid | jsonify }}, {% if item.parentid %}"parentid": {{ item.parentid | jsonify }}, {% endif %}{% unless fields contains 'title' %}"title": {{ item.title | jsonify }}, {% endunless %}{% for f in fields %}{% if item[f.field] %}{{ f.field | jsonify }}: {{ item[f.field] | jsonify }}, {% endif %}{% endfor %}{% if item.youtubeid %} "youtubeid": {{ item.youtubeid | jsonify }}, {% endif %}{% if item.vimeoid %} "vimeoid": {{ item.vimeoid | jsonify }}, {% endif %}"format": {{ item.format | jsonify }}, "filename": {% if item.filename %}"{{ item.filename }}"{% else %}""{% endif %} }{% unless forloop.last %}, {% endunless %}
-    {% endfor %}
-];
-
 /* function to find links to objects from filename field */ 
 function findFileLink(record) {
     var fileLink = record.filename.includes('/') ? record.filename : "{{ '/objects/' | relative_url }}" + record.filename;
@@ -467,51 +459,58 @@ function displayItem(record, prev_id, next_id, compound_object) {
     {%- endif -%}
 }
 
-/* initiate the Item page */ 
 
 /* get objectid from URL */
 let url = new URL(window.location);
 var itemPageId = url.searchParams.get('id');
-/* find the item by objectid */
-var record_index = cb_items.findIndex(item => item.objectid == itemPageId); 
-/* find any related children if applicable */ 
-var child_records = cb_items.filter(item => item.parentid == itemPageId);
 
-if (record_index != -1 && cb_items[record_index].parentid) {
-    // provide redirect for child items of compound objects
-    document.getElementById("bc-title").innerHTML = 'Child Item Error!';
-    document.getElementById("item-title").innerHTML = 'This id is a child item in a compound object, please visit the <a href="{{ "/item.html" | relative_url }}?id=' + cb_items[record_index].parentid + '#' + cb_items[record_index].objectid + '">parent item page to view</a>.';
+/* function to init page after loading cb_items */
+var itemPageInit = function (cb_items) {
 
-} else if (record_index != -1) {
-    // display item if it exists
-    var prev_id, next_id;
-    {% if site.data.theme.browse-buttons == true %}
-    // find parents only 
-    var parent_items = cb_items.filter(item => !item.parentid );
-    var parent_record_index = parent_items.findIndex(item => item.objectid == itemPageId); 
-    // find next and previous record
-    var last = parent_items.length - 1;
-    if (parent_record_index === 0) {
-        prev_id = parent_items[last].objectid;
-    } else { 
-        prev_id = parent_items[parent_record_index - 1].objectid;
-    }
-    if (parent_record_index === last) {
-        next_id = parent_items[0].objectid;
+    /* find the item by objectid */
+    var record_index = cb_items.findIndex(item => item.objectid == itemPageId); 
+    /* find any related children if applicable */ 
+    var child_records = cb_items.filter(item => item.parentid == itemPageId);
+
+    if (record_index != -1 && cb_items[record_index].parentid) {
+        // provide redirect for child items of compound objects
+        document.getElementById("bc-title").innerHTML = 'Child Item Error!';
+        document.getElementById("item-title").innerHTML = 'This id is a child item in a compound object, please visit the <a href="{{ "/item.html" | relative_url }}?id=' + cb_items[record_index].parentid + '#' + cb_items[record_index].objectid + '">parent item page to view</a>.';
+
+    } else if (record_index != -1) {
+        // display item if it exists
+        var prev_id, next_id;
+        {% if site.data.theme.browse-buttons == true %}
+        // find parents only 
+        var parent_items = cb_items.filter(item => !item.parentid );
+        var parent_record_index = parent_items.findIndex(item => item.objectid == itemPageId); 
+        // find next and previous record
+        var last = parent_items.length - 1;
+        if (parent_record_index === 0) {
+            prev_id = parent_items[last].objectid;
+        } else { 
+            prev_id = parent_items[parent_record_index - 1].objectid;
+        }
+        if (parent_record_index === last) {
+            next_id = parent_items[0].objectid;
+        } else {
+            next_id = parent_items[parent_record_index + 1].objectid;
+        }{% endif %}
+
+        // display item
+        displayItem(cb_items[record_index], prev_id, next_id, child_records);
+
     } else {
-        next_id = parent_items[parent_record_index + 1].objectid;
-    }{% endif %}
+        /* no item with that ID */
+        document.getElementById("bc-title").innerHTML = 'Not found?';
+        document.getElementById("item-title").innerHTML = 'Sorry, item not found. Please visit <a href="{{ "/browse.html" | relative_url }}">Browse page</a> to find an item.';
+    }
 
-    // display item
-    displayItem(cb_items[record_index], prev_id, next_id, child_records);
-
-} else {
-    /* no item with that ID */
-    document.getElementById("bc-title").innerHTML = 'Not found?';
-    document.getElementById("item-title").innerHTML = 'Sorry, item not found. Please visit <a href="{{ "/browse.html" | relative_url }}">Browse page</a> to find an item.';
+    /* all done, so hide loading animation */
+    document.getElementById("loading").style.display = "none";
 }
 
-/* all done, so hide loading animation */
-document.getElementById("loading").style.display = "none";
+// add feature function to includeFunctions array
+includeFunctions.push(itemPageInit);
 
 </script>
